@@ -1,0 +1,52 @@
+<!--doctype html-->
+<html lang='en'>
+    <head>
+        <title>Control Center</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1,
+        maximum-scale=1, user-scalable=0'>
+        <meta name='apple-mobile-web-app-capable' content='yes'>
+        <meta name='mobile-web-app-capable' content='yes'>
+        <meta name='apple-mobile-web-app-status-bar-style'
+        content='black-translucent'>
+        <script src='/static/js/vendor/socket.io-1.3.4.js'></script>
+        <script src='/static/js/script.js'></script>
+        <link rel='stylesheet' href='/static/css/screen.css'>
+        <script type="text/javascript">
+        (function() {
+            init();
+        })();
+
+        function init() {
+            toggleNightMode();
+            setInterval(function() {
+                toggleNightMode();
+            }, 60000);
+        }
+
+        function toggleNightMode() {
+            var date = new Date();
+            var styleSheetID = "night-mode";
+            var sheet = document.getElementById(styleSheetID);
+            if ((date.getHours() < 8 || date.getHours() > 19)) {
+                if (sheet == null) {
+                    var headHTML = document.getElementsByTagName('head')[0].innerHTML;
+                    headHTML += "<link id='" + styleSheetID + "' rel='stylesheet' href='/static/css/night-mode.css'>";
+                    document.getElementsByTagName('head')[0].innerHTML = headHTML;
+                }
+            } else {
+                if (sheet != null) {
+                    sheet.parentNode.removeChild(sheet);
+                }
+            }
+        }
+        </script>
+    </head>
+    <body>
+        <div id='container'>
+            <div class='bar'>
+                <h1 class='group'>Control Center</h1>
+            </div>
+            <ul id='list' class='list group'></ul>
+        </div>
+    </body>
+</html>
